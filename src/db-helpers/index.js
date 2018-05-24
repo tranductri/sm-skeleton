@@ -17,9 +17,7 @@ import db from '../models';
  * @return {Promise} - When the database is done syncing and ready to be used
  */
 export function syncDB({ force } = {}) {
-    const f = [
-        'examples'
-    ];
+    const f = ['benefits'];
     const fixturePaths = f.map(file => `${path.resolve(__dirname)}/fixtures/${file}.json`);
     return db
         .sequelize

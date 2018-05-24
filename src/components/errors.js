@@ -1,5 +1,6 @@
 import raven from 'raven';
 import config from '../config';
+import Sequelize from 'sequelize'
 
 /**
 * All error handeling and errors used trouought the application.
@@ -26,7 +27,8 @@ export function errorMiddleware(err, req, res, next) {
     .status(status)
     .json(err.payload || {
         name: err.name,
-        message: err.message
+        message: err.message,
+        errors: err.errors
     });
 }
 
@@ -75,10 +77,10 @@ export function pageNotFoundMiddleware(req, res) {
 * @return {Object}  - A DatabaseError object
 */
 export class DatabaseError extends Error {
-    name = 'ValidationError';
-    status = 400;
     constructor(error) {
         super(error.message);
+        this.name = 'DatabaseError';
+        this.status = 400;
     }
 }
 
@@ -90,10 +92,20 @@ export class DatabaseError extends Error {
 * @return {Object}  - A ValidationError object
 */
 export class ValidationError extends Error {
-    name = 'ValidationError';
-    status = 400;
     constructor(error) {
-        super(error.errors[0].message);
+        super('ValidationError');
+        this.name = 'ValidationError';
+        this.status = 400;
+        // this.errors = error.errors
+        if (error instanceof Sequelize.ValidationError) {
+            this.errors = error.errors.reduce((finalErrors, itemError) => ({
+                ...finalErrors,
+                [itemError.path]: {
+                    key: itemError.validatorKey,
+                    agrs: itemError.validatorArgs
+                }
+            }), {});
+        }
     }
 }
 
@@ -105,11 +117,11 @@ export class ValidationError extends Error {
 * @return {Object}  - A ValidationError object
 */
 export class CustomValidationError extends Error {
-    name = 'ValidationError';
-    status = 400;
     constructor(message = 'Bad request.') {
         super(message);
         this.message = message;
+        this.name = 'CustomValidationError';
+        this.status = 400;
     }
 }
 
@@ -121,10 +133,10 @@ export class CustomValidationError extends Error {
 * @return {Object}  - Error object
 */
 export class ResourceNotFoundError extends Error {
-    name = 'ResourceNotFoundError';
-    status = 404;
     constructor(entityType = 'entity') {
         super(`Could not find resource of type ${entityType}`);
+        this.name = 'ResourceNotFoundError';
+        this.status = 404;
     }
 }
 
@@ -136,11 +148,11 @@ export class ResourceNotFoundError extends Error {
 * @return {Object}  - Error object
 */
 export class AuthenticationError extends Error {
-    name = 'AuthenticationError';
-    status = 401;
     constructor(message = 'You need to authenicate to access this resource') {
         super(message);
         this.message = message;
+        this.name = 'AuthenticationError';
+        this.status = 401;
     }
 }
 
@@ -152,11 +164,11 @@ export class AuthenticationError extends Error {
 * @return {Object}  - Error object
 */
 export class AuthorizationError extends Error {
-    name = 'AuthorizationError';
-    status = 403;
     constructor(message = 'You are not authorized to access this resource') {
         super(message);
         this.message = message;
+        this.name = 'AuthorizationError';
+        this.status = 403;
     }
 }
 
@@ -167,10 +179,10 @@ export class AuthorizationError extends Error {
  * @return {Object}  - Error object
  */
 export class UriValidationError extends Error {
-    name = 'UriValidationError';
-    status = 400;
     constructor(message = 'Invalid URI.') {
         super(message);
         this.message = message;
+        this.name = 'UriValidationError';
+        this.status = 400;
     }
 }

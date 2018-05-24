@@ -4,7 +4,7 @@ import path from 'path';
 import Sequelize from 'sequelize';
 import config from '../config';
 
-const namespace = cls.createNamespace('express-api-boilerplate');
+const namespace = cls.createNamespace('sm-product-service');
 const logging = config.nodeEnv === 'development' ? console.log : false; // eslint-disable-line
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 

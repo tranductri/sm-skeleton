@@ -1,0 +1,65 @@
+[
+  {
+    "model": "Translation",
+    "data": {
+      "id": "9ddbb8ba-b525-4931-920a-5af941f1b038"
+    }
+  },
+  {
+    "model": "TranslationEntry",
+    "data": {
+      "translation_id": "9ddbb8ba-b525-4931-920a-5af941f1b038",
+      "language": "en-US",
+      "text": "Medical Accident"
+    }
+  },
+  {
+    "model": "Benefit",
+    "data": {
+      "code": "MA",
+      "name": "9ddbb8ba-b525-4931-920a-5af941f1b038"
+    }
+  },
+  {
+    "model": "Translation",
+    "data": {
+      "id": "1061716c-add9-40ff-bac0-31679d36d849"
+    }
+  },
+  {
+    "model": "TranslationEntry",
+    "data": {
+      "translation_id": "1061716c-add9-40ff-bac0-31679d36d849",
+      "language": "en-US",
+      "text": "Medical Accident for MA001"
+    }
+  },
+  {
+    "model": "Benefit",
+    "data": {
+      "code": "MA001",
+      "name": "1061716c-add9-40ff-bac0-31679d36d849"
+    }
+  },
+  {
+    "model": "Translation",
+    "data": {
+      "id": "4e500056-6358-42d8-87f5-8d16f92488f5"
+    }
+  },
+  {
+    "model": "TranslationEntry",
+    "data": {
+      "translation_id": "4e500056-6358-42d8-87f5-8d16f92488f5",
+      "language": "en-US",
+      "text": "Medical Accident for MA002"
+    }
+  },
+  {
+    "model": "Benefit",
+    "data": {
+      "code": "MA002",
+      "name": "4e500056-6358-42d8-87f5-8d16f92488f5"
+    }
+  }
+]

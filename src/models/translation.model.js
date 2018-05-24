@@ -37,7 +37,7 @@ export default function (sequelize, DataTypes) {
     });
 
     Translation.associate = (models) => {
-        Translation.hasMany(
+        Translation.Entries = Translation.hasMany(
             models.TranslationEntry,
             { as: 'entries', foreignKey: 'translation_id' }
         );

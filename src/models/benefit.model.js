@@ -10,6 +10,7 @@
 * @param  {Object} sequelize description
 * @param  {Object} DataTypes description
 */
+
 export default function (sequelize, DataTypes) {
     const Benefit = sequelize.define('Benefit', {
         id: {
@@ -20,71 +21,71 @@ export default function (sequelize, DataTypes) {
         },
         code: {
             type: DataTypes.TEXT,
-            allowNull: true,
-            unique: 'uqc_code_tenant_id'
+            allowNull: false,
+            unique: 'uqc_code_tenant_id',
+            validate: {
+                len: [2, 10]
+            }
         },
         apply_waiting_period: {
-            type: DataTypes.BOOLEAN,
-            allowNull: true
-        },
-        billing_type: {
-            type: DataTypes.TEXT,
-            allowNull: true
-        },
-        salary_sum_assured: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
             defaultValue: false
         },
+        billing_type: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        salary_sum_assured: {
+            type: DataTypes.BOOLEAN,
+            validate: {
+                hasMonth: () => {
+                  // @Todo: Check the value of number of month when
+                  // salary_sum_assured = true
+                  // currently can not access context value.'this' is
+                  // undefined
+                    // if (this.salary_sum_assured === true) {
+                    //     throw new Error('Invalid value');
+                    // }
+                }
+            }
+        },
         number_of_month: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            defaultValue: '0'
+            type: DataTypes.INTEGER
         },
         apply_unit: {
-            type: DataTypes.INTEGER,
-            allowNull: true
+            type: DataTypes.INTEGER
         },
         apply_type: {
-            type: DataTypes.TEXT,
-            allowNull: true
+            type: DataTypes.TEXT
         },
         currency: {
-            type: DataTypes.TEXT,
-            allowNull: true
+            type: DataTypes.TEXT
         },
         min_sum_assured: {
-            type: DataTypes.BIGINT,
-            allowNull: true
+            type: DataTypes.BIGINT
         },
         max_sum_assured: {
-            type: DataTypes.BIGINT,
-            allowNull: true
+            type: DataTypes.BIGINT
         },
         tenant_id: {
             type: DataTypes.UUID,
-            allowNull: true,
             unique: 'uqc_code_tenant_id'
         },
         created_by: {
-            type: DataTypes.UUID,
-            allowNull: true
+            type: DataTypes.UUID
         },
         name: {
-            type: DataTypes.UUID,
-            allowNull: true
+            type: DataTypes.UUID
         },
         description: {
-            type: DataTypes.UUID,
-            allowNull: true
+            type: DataTypes.UUID
         },
         created_at: {
-            type: DataTypes.DATE,
-            allowNull: true
+            type: DataTypes.DATE
         },
         updated_at: {
-            type: DataTypes.DATE,
-            allowNull: true
+            type: DataTypes.DATE
         }
     }, {
         tableName: 'benefit',
@@ -92,13 +93,13 @@ export default function (sequelize, DataTypes) {
     });
 
     Benefit.associate = (models) => {
-        Benefit.belongsTo(
+        Benefit.NameTranslation = Benefit.belongsTo(
           models.Translation,
-          { as: 'nameTranslations', foreignKey: 'name' }
+          { as: 'nameTranslation', foreignKey: 'name' }
         );
-        Benefit.belongsTo(
+        Benefit.DescTranslation = Benefit.belongsTo(
           models.Translation,
-          { as: 'descriptionTranslations', foreignKey: 'description' }
+          { as: 'descTranslation', foreignKey: 'description' }
         );
     };
 

@@ -11,7 +11,6 @@ export default function (sequelize, DataTypes) {
             allowNull: true,
             references: {
                 model: 'translation',
-                key: 'id'
             },
             unique: 'uqc_translation_id_language'
         },
